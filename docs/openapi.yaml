@@ -1,0 +1,92 @@
+openapi: 3.1.0
+info:
+  title: Keylog API
+  version: 0.2.0
+  description: API REST Express para autenticación, usuarios, roles, dispositivos y eventos.
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /auth/login:
+    post:
+      summary: Iniciar sesión y obtener tokens JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInput'
+      responses:
+        '200':
+          description: Tokens de acceso y refresh
+  /auth/register:
+    post:
+      summary: Registrar usuario con rol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterInput'
+      responses:
+        '201':
+          description: Usuario creado
+  /users:
+    get:
+      summary: Listar usuarios (admin)
+      responses:
+        '200':
+          description: Usuarios existentes
+    post:
+      summary: Crear usuario (admin)
+      responses:
+        '201':
+          description: Usuario creado
+  /devices:
+    get:
+      summary: Listar dispositivos
+      responses:
+        '200':
+          description: Dispositivos registrados
+    post:
+      summary: Registrar dispositivo
+      responses:
+        '201':
+          description: Dispositivo registrado
+  /events:
+    get:
+      summary: Últimos eventos de acceso
+      responses:
+        '200':
+          description: Eventos devueltos
+    post:
+      summary: Registrar evento de acceso
+      responses:
+        '201':
+          description: Evento creado
+components:
+  schemas:
+    LoginInput:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    RegisterInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      required:
+        - name
+        - email
+        - password
